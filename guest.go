@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"github.com/syyongx/php2go"
 	"golang.org/x/image/bmp"
+	"image/jpeg"
 	"os"
 	"time"
 )
@@ -31,18 +32,24 @@ func readClipboard() string {
 		return str
 	}
 	if contentType == "CF_DIBV5" {
-		bmpBytes, err := Clipboard().Bitmap()
+		bmpBytes, err = Clipboard().Bitmap()
+
 		if err != nil {
+			bmpBytes = nil
 			return ""
 		}
 		bmpBytesReader := bytes.NewReader(bmpBytes)
+		//bmpImage, err := bmp.Decode(bmpBytesReader)
 		bmpImage, err := bmp.Decode(bmpBytesReader)
 		if err != nil {
+			bmpImage = nil
 			return ""
 		}
-		bmpfile, _ := os.Create(`./bmp.bmp`)
-		bmp.Encode(bmpfile, bmpImage)
-		bmpfile.Close()
+		jpgfile, _ := os.Create(`./image.jpg`)
+		jpeg.Encode(jpgfile, bmpImage, &jpeg.Options{100})
+		jpgfile.Close()
+		bmpBytes = nil
+		bmpImage = nil
 		return ""
 	}
 	if contentType == typeFile {
@@ -69,12 +76,12 @@ func writeClipboard(d string) {
 
 var oldWinContent = ""
 var oldLinuxContent = ""
-
+var bmpBytes []byte
 func main() {
 	for {
 		winContent := readClipboard()
-		println(winContent)
 		if len(winContent) > 0 {
+			println(winContent)
 			if (winContent != oldWinContent) {
 				if (winContent != oldLinuxContent) {
 					println("send clipboard data to linux")

@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/syyongx/php2go"
+	"os/exec"
 )
 
 func main() {
@@ -25,6 +26,30 @@ func main() {
 					php2go.FilePutContents("winclipboard.data", "", 0777)
 				}
 			}
+		}
+
+		if php2go.FileExists("image.jpg") {
+			//xclip -selection clipboard -t image/jpeg -i image.jpg
+			//xclip -selection clipboard -t image/jpeg -o|tee ggg.jpg >/dev/null
+			time.Sleep(time.Duration(200)*time.Millisecond)
+
+			cmdArgs := []string{"xclip", "-selection", "clipboard", "-t", "image/jpeg", "-i", "image.jpg"}
+			cmd := exec.Command(cmdArgs[0], cmdArgs[1:]...)
+			in, _ := cmd.StdinPipe()
+			cmd.Start()
+			in.Close()
+			cmd.Wait()
+
+
+
+			cmdArgs = []string{"rm", "image.jpg"}
+			cmd = exec.Command(cmdArgs[0], cmdArgs[1:]...)
+			in, _ = cmd.StdinPipe()
+			cmd.Start()
+			in.Close()
+			cmd.Wait()
+
+			println("jpg")
 		}
 
 		linuxContent, _ := clipboard.ReadAll()
