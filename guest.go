@@ -17,15 +17,17 @@ const (
 func readClipboard() string {
 	contentType, err := Clipboard().ContentType()
 	if err != nil {
+		println(err.Error())
 		return ""
 	}
 	if contentType == typeText {
 		str, err := Clipboard().Text()
 		if err != nil {
+			println(err.Error())
+			Clipboard().Clear()
+			Clipboard().SetText(oldWinContent)
 			return ""
 		}
-
-		writeClipboard(str)
 		return str
 	}
 	if contentType == "CF_DIBV5" {
@@ -64,10 +66,11 @@ func writeClipboard(d string) {
 	}
 }
 
-func main() {
-	oldWinContent := ""
-	oldLinuxContent := ""
 
+var oldWinContent = ""
+var oldLinuxContent = ""
+
+func main() {
 	for {
 		winContent := readClipboard()
 		println(winContent)
