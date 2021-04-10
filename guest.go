@@ -39,7 +39,6 @@ func readClipboard() string {
 			return ""
 		}
 		bmpBytesReader := bytes.NewReader(bmpBytes)
-		//bmpImage, err := bmp.Decode(bmpBytesReader)
 		bmpImage, err := bmp.Decode(bmpBytesReader)
 		if err != nil {
 			bmpImage = nil
