@@ -1,8 +1,8 @@
 package main
 
 import (
-	"time"
 	"github.com/atotto/clipboard"
+	"time"
 
 	"github.com/syyongx/php2go"
 )
@@ -21,6 +21,7 @@ func main() {
 				if winContent != oldLinuxContent {
 					oldWinContent = winContent
 					clipboard.WriteAll(winContent)
+					time.Sleep(time.Duration(20)*time.Millisecond)
 					php2go.FilePutContents("winclipboard.data", "", 0777)
 				}
 			}

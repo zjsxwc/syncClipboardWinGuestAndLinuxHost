@@ -20,6 +20,16 @@ virtualbox里windows剪切板到linux宿主机剪切板的同步老是失效，
 ./host.sh
 ```
 
+linux 下编译 host
+
+```
+go get github.com/atotto/clipboard
+go get github.com/syyongx/php2go
+
+go build -o host-linux host.go
+```
+
+
 #### Win 虚拟机
 
 
@@ -27,4 +37,17 @@ virtualbox里windows剪切板到linux宿主机剪切板的同步老是失效，
 
 ```
 guest.bat
+```
+
+win下编译 guest
+
+```
+go get gopkg.in/Knetic/govaluate.v3
+go get github.com/lxn/walk
+go get github.com/lxn/win
+go get golang.org/x/sys
+go get golang.org/x/image
+go get github.com/syyongx/php2go
+
+go build -o guest.exe guest.go winclipboard.go
 ```
