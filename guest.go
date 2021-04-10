@@ -24,6 +24,8 @@ func readClipboard() string {
 		if err != nil {
 			return ""
 		}
+
+		writeClipboard(str)
 		return str
 	}
 	if contentType == "CF_DIBV5" {
