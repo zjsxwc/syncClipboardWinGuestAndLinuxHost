@@ -81,11 +81,11 @@ func main() {
 	for {
 		winContent := readClipboard()
 		if len(winContent) > 0 {
-			println(winContent)
+			//println(winContent)
 			if (winContent != oldWinContent) {
 				if (winContent != oldLinuxContent) {
-					println("send clipboard data to linux")
-					println(winContent)
+					//println("send clipboard data to linux")
+					//println(winContent)
 	
 					oldWinContent = winContent
 					php2go.FilePutContents("winclipboard.data", winContent, 0777)
@@ -97,8 +97,8 @@ func main() {
 		if len(linuxContent) > 0 {
 			if linuxContent != oldWinContent {
 				if (linuxContent != oldLinuxContent) {
-					println("write linux data to clipboard")
-					println(linuxContent)
+					//println("write linux data to clipboard")
+					//println(linuxContent)
 	
 					oldLinuxContent = linuxContent
 					writeClipboard(linuxContent)
